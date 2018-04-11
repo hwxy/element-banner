@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./try.css">
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+
+        padding: 20px;
+    }
+
+    .father {
+        perspective: 600px;
+        width: 200px;
+        position: absolute;
+        left: 100px;
+        top: 100px;
+    }
+
+    .child {
+        width: 200px;
+        height: 100px;
+        background: url("./timg (1).jpeg") no-repeat center center/100% 100%;
+        transform-style: preserve-3d;
+    }
+</style>
+
+<body>
+    <div class="father">
+        <div class="child">
+        </div>
+    </div>
+    <script>
+        let div = document.querySelectorAll('div')[1];
+        let fatherDiv = document.querySelectorAll('div')[0];
+        let left = div.getBoundingClientRect().left;
+        let to = div.getBoundingClientRect().top;
+
+        function move(event) {
+            var e = event || window.event;
+            var clientX = e.clientX || e.targetTouches[0].clientX;
+            var clientY = e.clientY || e.targetTouches[0].clientY;
+            clientX = clientX - left;
+            clientY = clientY - to;
+            var width = parseInt(getComputedStyle(this, null).width) / 2;
+            var height = parseInt(getComputedStyle(this, null).height) / 2;
+            var degY = (clientX - width) / width * 20;
+            var degX = (height - clientY) / height * 20;
+            div.style.cssText = `transform:rotateX(${degX}deg) rotateY(${degY}deg)`;
+        }
+
+        function end(event) {
+            div.style.cssText = `transform:rotateX(${0}deg) rotateY(${0}deg)`;
+        }
+
+        div.addEventListener('touchmove', move, false)
+        fatherDiv.addEventListener('touchend', end, false)
+        div.addEventListener('mousemove', move, false);
+        fatherDiv.addEventListener('mouseleave', end, false)
+    </script>
+</body>
+
+</html>
